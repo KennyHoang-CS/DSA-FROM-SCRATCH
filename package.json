@@ -1,0 +1,15 @@
+{
+  "name": "dsa_scratch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "LinkedList.js",
+  "scripts": {
+    "test": "jest Tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u001b[A\u001b[B\u001b[B"
+  },
+  "author": "",
+  "license": "ISC"
+}
