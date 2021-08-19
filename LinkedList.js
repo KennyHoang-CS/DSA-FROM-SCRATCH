@@ -19,7 +19,7 @@ class LinkedList {
         } else if (this.size === 1) {  // list with one node. 
             this.head.next = newNode; 
             this.tail = newNode; 
-        } else {
+        } else {    // more than one nodes. 
             this.tail.next = newNode; 
             this.tail = newNode; 
         }
@@ -68,53 +68,72 @@ class LinkedList {
 
     delete(target) {
 
-        // does the list even exist?
-        if (this.head === null) {
+        // is list empty? 
+        if (this.isListEmpty()) {
+            console.log('List is empty. ');
             return; 
         }
 
-        // are we deleting the head? 
-        if (this.head.data === target && (this.size > 1)) {
-            this.head = this.head.next; 
+        // list only has one node.
+        if (this.size === 1) {
+            if (this.head.data === target) {
+                this.head = null;   // should delete the target node. 
+                this.tail = null; 
+            }
             --this.size; 
             return; 
         }
 
-        // only one node in list? Check if its the target. 
-        if (this.size === 1) {
-            if (this.head.data === target) {
-                this.head = null;
-                this.tail = null; 
-                --this.size;
-            } else {
-                return; 
-            }
-        }
-
-        // list has at least 2 nodes. 
         let currPtr = this.head.next; 
-        let prevPtr = this.head;  
+        let prevPtr = this.head; 
         while (currPtr) {
             if (currPtr.data === target) {
+                // did we deleted the tail? 
                 if (currPtr.next === null) {
                     this.tail = prevPtr;
-                } else {
-                    prevPtr.next = prevPtr.next.next;
                 }
-            } 
-            currPtr = currPtr.next; 
+                prevPtr.next = currPtr.next;
+                --this.size;
+                return;
+            }
+            currPtr = currPtr.next;
             prevPtr = prevPtr.next; 
         }
-        --this.size; 
+
+        // list has more than one node. 
     };
     
     traversal() {
         let currentPtr = this.head; 
-        while (currentPtr) {
+        while (currentPtr !== null) {
             console.log(currentPtr.data);
             currentPtr = currentPtr.next; 
         }
     };
+
+    search(target) {
+        let ptr = this.head;
+        while (ptr) {
+            if (ptr.data === target) {
+                console.log('search target found.');
+                return ptr.data; 
+            }
+            ptr = ptr.next; 
+        }
+    }
+
+    update(target, newValue) {
+        let ptr = this.head;
+        // traverse the list in O(N).
+        while (ptr) {
+            // did we find the node to modify? 
+            if (ptr.data === target) {
+                ptr.data = newValue; 
+                return; 
+            }
+            ptr = ptr.next;
+        }
+    }
 
     // helpers 
 
@@ -129,20 +148,11 @@ class LinkedList {
     getTail() {
         return this.tail; 
     }
+
+    isListEmpty() {
+        return this.size === 0; 
+    }
 }
 
-let li = new LinkedList();
-li.add(new Node(1));
-/*
-li.add(new Node(2));
-li.add(new Node(5));
-li.add(new Node(3));
-li.add(new Node(10));
-*/
 
-// li.delete(1);
-// li.delete(10);
-// li.delete(3);
- console.log(li.traversal());
-// console.log(li.getHead().data);
-// console.log(li.getTail().data);
+
