@@ -12,7 +12,11 @@ class LinkedList {
         this.size = 0; 
     };
 
-    add(newNode) {
+    add(data) {
+        
+        // create a new node.
+        let newNode = new Node(data);
+        
         if (this.head === null) {   // list is empty. 
             this.head = newNode;
             this.tail = newNode; 
@@ -64,6 +68,75 @@ class LinkedList {
         prev.next = newNode; 
         newNode.next = currPtr; 
         ++this.size; 
+    };
+
+    append(data) {
+
+        // create a new node.
+        let newNode = new Node(data);
+
+        // append new node to the tail.
+        this.tail.next = newNode;
+        this.tail = newNode; 
+        ++this.size; 
+    }
+
+    unshift(data) {
+        // add a new node with data to the head; 
+
+        // create a new node. 
+        let newNode = new Node(data); 
+
+        newNode.next = this.head; 
+        this.head = newNode; 
+        ++this.size; 
+    }
+
+    // Remove & return head value. Throws error if list is empty.
+    shift() {
+
+        if (this.head === null) {
+            console.log('LIST EMPTY.');
+            return; 
+        }
+        
+        let temp = this.head.data; 
+        this.head = this.head.next; 
+        --this.size; 
+        return temp; 
+    }
+
+    // remove and return the tail value. 
+    pop() {
+
+        // are we popping from an empty list? 
+        if (!this.head) {
+            console.log('LIST EMPTY.');
+            return; 
+        }
+
+        // are we popping from a list with one node?  
+        if (this.size === 1) {
+            let temp = this.tail.data; 
+            this.head = null; 
+            this.tail = null; 
+            --this.size;
+            return temp; 
+        }
+
+        // there exists at least 2 nodes in the list. 
+        let currPtr = this.head.next;
+        let prevPtr = this.head;
+        // set up pointers position. 
+        while (currPtr) {
+            currPtr = currPtr.next.next;
+            prevPtr = prevPtr.next; 
+        }
+        let temp = prevPtr.next.data; 
+        prevPtr.next = currPtr; 
+        this.tail = prevPtr; 
+        --this.size; 
+        return temp;  
     }
 
     delete(target) {
@@ -84,6 +157,7 @@ class LinkedList {
             return; 
         }
 
+        // list has at least 2 nodes. 
         let currPtr = this.head.next; 
         let prevPtr = this.head; 
         while (currPtr) {
@@ -99,8 +173,36 @@ class LinkedList {
             currPtr = currPtr.next;
             prevPtr = prevPtr.next; 
         }
+    };
 
-        // list has more than one node. 
+    deleteAtPosition(pos) {
+        if (pos < 0 || pos > this.size) {
+            console.log('Position to be deleted is invalid.');
+            return;
+        }
+
+        // are we deleting a node at position 1 and the list size is 1?
+        if (this.size === 1 && (pos === 1)) {
+            this.head = null;
+            this.tail = null; 
+            --this.size; 
+            return; 
+        }
+
+        // list has at least 2 nodes, and the position is valid. 
+        // set up the pointers placement prior to deletion. 
+        let idx = 1; 
+        let currPtr = this.head.next;
+        let prevPtr = this.head; 
+        while (idx < pos - 1) {
+            currPtr = currPtr.next;
+            prevPtr = prevPtr.next; 
+            ++idx; 
+        }
+
+        // pointers are correct position, delete now.  
+        prevPtr.next = currPtr.next; 
+        --this.size;  
     };
     
     traversal() {
@@ -120,7 +222,7 @@ class LinkedList {
             }
             ptr = ptr.next; 
         }
-    }
+    };
 
     update(target, newValue) {
         let ptr = this.head;
@@ -133,6 +235,27 @@ class LinkedList {
             }
             ptr = ptr.next;
         }
+    };
+
+    // Return the average of numbers in the linked list. 
+    average() {
+
+        // check if list empty. 
+        if (this.isListEmpty()) {
+            console.log("LIST EMPTY.");
+            return; 
+        }
+
+        // traverse the linked list, add its node value into a sum. 
+        let headPtr = this.head;
+        let sum = 0; 
+        while (headPtr) {
+            sum += headPtr.data; 
+            headPtr = headPtr.next; 
+        }
+
+        // return the average.
+        return sum / this.size; 
     }
 
     // helpers 
@@ -143,15 +266,15 @@ class LinkedList {
 
     getHead() {
         return this.head; 
-    }
+    };
 
     getTail() {
         return this.tail; 
-    }
+    };
 
     isListEmpty() {
         return this.size === 0; 
-    }
+    };
 }
 
 
