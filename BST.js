@@ -51,12 +51,45 @@ class BST {
             console.log('TREE EMPTY. Nothing to delete.');
             return; 
         } else { // locate the node for deletion.
-            this.deleteNode(this.root, target);
+            this.root = this.deleteNode(this.root, target);
         }
     }
 
-    deleteNode(target) {
+    deleteNode(node, target) {
+        
+        // target node is found. 
+        if (node.data === target) {
 
+            // node has no children.
+            if (!node.left && !node.right) {
+                return null; 
+            }
+
+            // node has left child.
+            if (node.left && !node.right) {
+                return node.left; 
+            }
+
+            // node has right child.
+            if (!node.left && node.right) {
+                return node.right; 
+            }
+
+            // node has left and right child. 
+            // replace the node with its left most node while keeping sub-tree intact. 
+            let tempNode = node.right;
+            while (tempNode.left !== null) {
+                tempNode = tempNode.left; 
+            }
+            node.data = tempNode.data; 
+            node.right = this.deleteNode(node.right, tempNode.data);
+        } else if (node.data < target) { // search right sub-tree. 
+            node.right = this.deleteNode(node.right, target);
+        } else {    // search left sub-tree. 
+            node.left = this.deleteNode(node.left, target);
+        }
+        
+        return node;  // don't want to lose connection of sub-trees!!!
     }
 
     // traversals 
@@ -116,7 +149,7 @@ class BST {
         while (current.left !== null) {
             current = current.left;
         }
-        
+
         return current.data;
     }
 
@@ -132,9 +165,14 @@ class BST {
 
 let bt = new BST();
 
-bt.add(5);
-bt.add(3);
-bt.add(1);
 bt.add(8);
-bt.add(6);
-console.log(bt.findMin());
+bt.add(3)
+bt.add(14)
+bt.add(1)
+bt.add(6)
+bt.add(4)
+bt.add(7)
+
+bt.traversePreOrder(bt.getRoot());
+console.log('----');
+bt.traversePreOrder(bt.getRoot());
