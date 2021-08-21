@@ -1,3 +1,4 @@
+
 class Node {
     constructor(data, left = null, right = null) {
         this.data = data;
@@ -214,5 +215,5 @@ bt.add(4)
 bt.add(7)
 
 bt.traversePostOrder(bt.getRoot());
-console.log('----');
+//console.log('----');
 bt.dfs();
