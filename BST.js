@@ -118,6 +118,46 @@ class BST {
         }
     }
 
+    bfs() {
+        
+        let queue = []; 
+        let copyRoot = this.root;
+        queue.push(copyRoot);
+        let node; 
+
+        while (queue.length > 0) {
+            
+            node = queue.shift(); 
+            console.log(node.data);
+
+            if (node.left != null) {
+                queue.push(node.left);
+            } 
+            if (node.right !== null) {
+                queue.push(node.right);
+            }
+        }
+    } 
+
+    dfs() {
+
+        let stack = [];
+        let copyRoot = this.root; 
+        stack.push(copyRoot);
+        let node; 
+
+        while (stack.length > 0) {
+            
+            node = stack.pop(); 
+
+            console.log(node.data);
+            // if it has a right child, push into stack. 
+            if (node.right) stack.push(node.right);
+            // if it has a left child, push into stack.
+            if (node.left) stack.push(node.left);
+        }
+    }
+
     // helpers
     getRoot() {
         return this.root; 
@@ -173,6 +213,6 @@ bt.add(6)
 bt.add(4)
 bt.add(7)
 
-bt.traversePreOrder(bt.getRoot());
+bt.traversePostOrder(bt.getRoot());
 console.log('----');
-bt.traversePreOrder(bt.getRoot());
+bt.dfs();
