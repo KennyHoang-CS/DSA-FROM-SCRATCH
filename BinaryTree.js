@@ -124,11 +124,11 @@ class BinaryTree {
     minDepth() {
         
         // check if root exists. 
-        if (!root) return 0;
+        if (!this.root) return 0;
     
         let min = Number.MAX_SAFE_INTEGER;  
     
-        findMin(root, 1);
+        findMin(this.root, 1);
     
         return min; 
     
@@ -154,10 +154,10 @@ class BinaryTree {
     maxDepth() {
 
         // check if tree exists.
-        if (!root) return 0; 
+        if (!this.root) return 0; 
 
         let max = 0; 
-        findMax(root, 1); 
+        findMax(this.root, 1); 
         return max; 
 
         function findMax(node, depth) {
@@ -169,6 +169,62 @@ class BinaryTree {
             findMax(node.left, depth + 1); 
             findMax(node.right, depth + 1); 
         }
+    }
+
+    maxSumPath() {
+
+        // check if tree exists.
+        if (!this.root) return 0;
+
+        let pathResult = 0; 
+        findMaxSumPath(this.root);
+        return pathResult; 
+        
+        function findMaxSumPath(node) {
+
+            // if node doesn't exist.
+            if (!node) return 0; 
+            
+            // calculate left path of current node.
+            let left = findMaxSumPath(node.left);
+            // calculate right path of current node. 
+            let right = findMaxSumPath(node.right);
+
+            // get max path of result. 
+            pathResult = Math.max(node.data + left + right); 
+
+            return Math.max(node.data + left, node.data + right);
+        }
+    }
+
+    static bothTreesEqual(tree1, tree2) {
+
+        let q1 = [];
+        let q2 = []; 
+        q1.push(tree1.getRoot());
+        q2.push(tree2.getRoot());
+
+        // use bfs and compare tree1 node with tree2 node. 
+        while (q1.length > 0) {
+            let node1 = q1.shift(); 
+            let node2 = q2.shift();
+
+            if (node1.data !== node2.data) return false; 
+
+            // check if both trees have a left child. 
+            if (node1.left !== null && (node2.left !== null)) {
+                q1.push(node1.left);
+                q2.push(node2.left); 
+            }
+
+            // check if both trees have a right child. 
+            if (node1.right !== null && (node2.right !== null)) {
+                q1.push(node1.right);
+                q2.push(node2.right); 
+            }
+        }
+        // if we didn't return false, then both trees are equal then return true. 
+        return true; 
     }
 
 
@@ -225,6 +281,10 @@ class BinaryTree {
         // return false if we didn't find the target while traversing. 
         return false; 
     }
+
+    getRoot() {
+        return this.root;
+    }
 }
 
 let bt = new BinaryTree();
@@ -241,13 +301,19 @@ bt.add(45);
 bt.bfs();
 
 console.log('----');
-console.log(bt.minDepth())
 
-/*
-bt.add(99);
-console.log('----');
-bt.bfs();
-*/
+let bt2 = new BinaryTree(); 
+bt2.add(13);
+bt2.add(12);
+bt2.add(10);
+bt2.add(4);
+bt2.add(19);
+bt2.add(16);
+bt2.add(9);
+bt2.add(40);
+bt2.add(45);
+
+console.log('both trees equal: ', BinaryTree.bothTreesEqual(bt, bt2));
 
 module.exports = {
     BinaryTree
