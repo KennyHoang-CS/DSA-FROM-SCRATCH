@@ -42,33 +42,40 @@ class HashMap {
 
     // return an array of values in hash map. 
     values() {
-        return this._items.map(kv => kv[1]);
+        let myValues = [];
+        for (let i = 0; i < this._items.length; i++)  {
+            if (this._items[i] && this._items[i][1]) {
+                myValues.push(this._items[i][1]);
+            }
+        }
+
+        return myValues;
     }
 
     // return an array of keys in hash map. 
     keys() {
-        return this._items.map(kv => kv[0]);
+        let myKeys = [];
+        for (let i = 0; i < this._items.length; i++) {
+            if (this._items[i] && this._items[i][0]) {
+                myKeys.push(this._items[i][0]);
+            }
+        }
+
+        return myKeys;
     }
 
     // return an array of keys and values in hash map. 
-    entries() {
-        return this._items;
+    entries() {     
+        let myEntries  = [];
+        for (let i = 0; i < this._items.length; i++) {
+            if (this._items[i]) {
+                myEntries.push(this._items[i]);
+            }
+        }
+
+        return myEntries;
     }
     
 }
 
-const m = new HashMap(); 
 
-m.set('cat', 'red');
-m.set('bob', 'yellow');
-
-//console.log(m);
-//console.log(m.get('cat'));
-//console.log(m.get('bob'));
-//console.log('HAS cat key?: ', m.has('cat'));
-//console.log(m.values())
-//console.log(m.keys())
-
-m.delete('cat');
-m.delete('bob');
-console.log(m.entries());
