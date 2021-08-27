@@ -240,6 +240,7 @@ class BinaryTree {
         while (queue.length > 0) {
             
             node = queue.shift(); 
+
             console.log(node.data);
 
             if (node.left != null) {
@@ -286,34 +287,6 @@ class BinaryTree {
         return this.root;
     }
 }
-
-let bt = new BinaryTree();
-
-bt.add(13);
-bt.add(12);
-bt.add(10);
-bt.add(4);
-bt.add(19);
-bt.add(16);
-bt.add(9);
-bt.add(40);
-bt.add(45);
-bt.bfs();
-
-console.log('----');
-
-let bt2 = new BinaryTree(); 
-bt2.add(13);
-bt2.add(12);
-bt2.add(10);
-bt2.add(4);
-bt2.add(19);
-bt2.add(16);
-bt2.add(9);
-bt2.add(40);
-bt2.add(45);
-
-console.log('both trees equal: ', BinaryTree.bothTreesEqual(bt, bt2));
 
 module.exports = {
     BinaryTree

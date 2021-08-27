@@ -30,7 +30,10 @@ class LinkedList {
         ++this.size; 
     };
 
-    addAtPosition(newNode, pos) {
+    addAtPosition(data, pos) {
+
+        // create new node.
+        let newNode = new Node(data);
 
         // check if its a valid position.
         if (pos < 0 || pos > this.size) {
@@ -190,6 +193,14 @@ class LinkedList {
         }
 
         // list has at least 2 nodes, and the position is valid. 
+        
+        // if head is being deleted, move head to next node.
+        if (pos === 1) {
+            this.head = this.head.next;
+            --this.size;
+            return; 
+        }
+        
         // set up the pointers placement prior to deletion. 
         let idx = 1; 
         let currPtr = this.head.next;
@@ -198,6 +209,11 @@ class LinkedList {
             currPtr = currPtr.next;
             prevPtr = prevPtr.next; 
             ++idx; 
+        }
+
+        // adjust tail if tail node was deleted.  
+        if (this.size === 2 && (pos === 2)) {
+            this.tail = prevPtr;
         }
 
         // pointers are correct position, delete now.  
@@ -217,11 +233,12 @@ class LinkedList {
         let ptr = this.head;
         while (ptr) {
             if (ptr.data === target) {
-                console.log('search target found.');
-                return ptr.data; 
+                return true; 
             }
             ptr = ptr.next; 
         }
+        
+        return false;
     };
 
     update(target, newValue) {

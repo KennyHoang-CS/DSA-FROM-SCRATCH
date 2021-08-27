@@ -146,17 +146,22 @@ class BST {
         let copyRoot = this.root; 
         stack.push(copyRoot);
         let node; 
+        
+        let testArr = []; 
 
         while (stack.length > 0) {
             
             node = stack.pop(); 
+            testArr.push(node.data);
 
-            console.log(node.data);
+            //console.log(node.data);
             // if it has a right child, push into stack. 
             if (node.right) stack.push(node.right);
             // if it has a left child, push into stack.
             if (node.left) stack.push(node.left);
         }
+
+        return testArr;
     }
 
     // helpers
@@ -170,8 +175,7 @@ class BST {
             if (node) {
                 // did we find the node?
                 if (node.data === target) {
-                    console.log("TARGET FOUND");
-                    return node; 
+                    return true; 
                 }
                 else if (node.data > target) {
                     // node value greater than target, go left.
@@ -180,7 +184,7 @@ class BST {
                     // node value less than target, go right.
                     return searchNode(node.right);
                 }
-            } else return null; 
+            } else return false; 
         }
         return searchNode(this.root); 
     }
@@ -204,16 +208,6 @@ class BST {
     }
 };
 
-let bt = new BST();
-
-bt.add(8);
-bt.add(3)
-bt.add(14)
-bt.add(1)
-bt.add(6)
-bt.add(4)
-bt.add(7)
-
-bt.traversePostOrder(bt.getRoot());
-//console.log('----');
-bt.dfs();
+module.exports = {
+    BST
+}
